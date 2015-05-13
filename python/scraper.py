@@ -19,3 +19,4 @@ def login(user, passw):
 
 print(login("shardul.baral@mail.mcgill.ca", "beauties"))
 driver.quit()
+
