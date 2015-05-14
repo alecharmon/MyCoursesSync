@@ -1,15 +1,16 @@
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 import time
-# class object:
-#     """A simple example class"""
-#     i = 12345
 
 
-# class Class:
-# 	Semester
+def login(driver, user, passw):
+	driver.get("https://mymcgill.mcgill.ca/portal/page/portal/Login")
+	driver.find_element_by_id('username').send_keys(user)
+	driver.find_element_by_id('password').send_keys(passw, Keys.RETURN)
+    	driver.find_element_by_link_text('Access myCourses').click()
+	driver.switch_to_window(driver.window_handles[1])
+	time.sleep(10)
 
-
-# class Semester:
-# 	TITLE 
 def wait_for(condition_function):
     start_time = time.time()
     while time.time() < start_time + 15:
