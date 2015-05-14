@@ -9,8 +9,8 @@ def login(driver, user, passw):
 	driver.find_element_by_id('password').send_keys(passw, Keys.RETURN)
     	driver.find_element_by_link_text('Access myCourses').click()
 	driver.switch_to_window(driver.window_handles[1])
-	time.sleep(10)
-	
+	time.sleep(5)
+
 def getClasses(driver):
 	classes = []
 	links = driver.find_elements_by_partial_link_text("Fall 2013")
