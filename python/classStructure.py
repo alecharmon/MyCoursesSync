@@ -1,11 +1,15 @@
-class object:
-    """A simple example class"""
-    i = 12345
+class link:
+	def __init__(self, semster, title, link):
+		self.semster =semster
+		self.title = title
+		self.link =link
 
 
 class Class:
-	Semester
+	def __init__(self, semster, title, link):
+		self.semster =semster
+		self.title = title
+		self.link =link
 
 
-class Semester:
-	TITLE 
+
