@@ -17,6 +17,17 @@ class Class:
 		if not os.path.exists("testing/"+self.title):
     			os.mkdir("testing/"+self.title)
 	
+class classFolder:
+	def __init__(self,  title,links):
+		self.title = title
+		self.links =links
+
+class folderFile:
+	def __init__(self,  title,link):
+		self.title = title
+		self.link =link
+
+		
 
 
 
