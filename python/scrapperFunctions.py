@@ -1,4 +1,4 @@
-from classStructure import Class
+from classStructure import Class,folderFile,classFolder
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -25,3 +25,23 @@ def getClasses(driver):
         x = Class("Fall 2013", title, link.get_attribute("href"), link)
         classes.append(x)
     return classes
+
+def getFolder(driver, Class ):
+    driver.get(Class.link)
+    toRetFolders=[]
+    driver.find_element_by_link_text('Content').click()
+    folders = driver.find_elements_by_class_name('d2l-datalist')
+    headings = folders[0].find_elements_by_xpath(".//h2")
+    del folders[0]
+    for folder in folders:
+        heading = headings[0].get_attribute("innerHTML")
+        del headings[0]
+        scraperLinks = folder.find_elements_by_xpath(".//a")
+        links =[]
+        for y in scraperLinks:
+            if (y.get_attribute("text") != "" ) &  (y.get_attribute("innerHTML").find("<img") < 0):
+                tempLink = folderFile(y.get_attribute("innerHTML"),y.get_attribute("Href"))
+                links.append(tempLink)
+        temp= classFolder(heading,links)
+        toRetFolders.append(temp)
+    return toRetFolders

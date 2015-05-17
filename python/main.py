@@ -1,8 +1,9 @@
+import pprint
 from selenium import webdriver
 
 from scrapperFunctions import login
 from classStructure import folderFile, classFolder
-from scrapperFunctions import getClasses
+from scrapperFunctions import getClasses,getFolder
 
 
 driver = webdriver.Firefox()
@@ -13,25 +14,32 @@ login(driver, "shardul.baral@mail.mcgill.ca", "beauties")
 classes = getClasses(driver)
 ##make folders
 
-for x in classes:
-    x.makeFolder()
-    driver.get(x.link)
-    driver.find_element_by_link_text('Content').click()
-    folders = driver.find_elements_by_class_name('d2l-datalist')
-    headings = folders[0].find_elements_by_xpath(".//h2")
-    del folders[0]
-    for folder in folders:
-        heading = headings[0].get_attribute("innerHTML")
-        del headings[0]
-        scraperLinks = folder.find_elements_by_xpath(".//a")
-        links =[]
-        for y in scraperLinks:
-            if (y.get_attribute("text") != "" ) &  (y.get_attribute("innerHTML").find("<img") < 0):
-                tempLink = folderFile(y.get_attribute("innerHTML"),y.get_attribute("Href"))
-                links.append(tempLink)
-        temp= classFolder(heading,links)
-        print("test")
+classFolder = getFolder(driver, classes[0])
+pp = pprint.PrettyPrinter(indent=4)
+for x in classFolder:
+    print(x.title+"__________")
+    for y in x.links:
+        print(y.title+"   "+y.link)
+# for x in classes:
+#     x.makeFolder()
 
+
+    # driver.get(x.link)
+    # driver.find_element_by_link_text('Content').click()
+    # folders = driver.find_elements_by_class_name('d2l-datalist')
+    # headings = folders[0].find_elements_by_xpath(".//h2")
+    # del folders[0]
+    # for folder in folders:
+    #     heading = headings[0].get_attribute("innerHTML")
+    #     del headings[0]
+    #     scraperLinks = folder.find_elements_by_xpath(".//a")
+    #     links =[]
+    #     for y in scraperLinks:
+    #         if (y.get_attribute("text") != "" ) &  (y.get_attribute("innerHTML").find("<img") < 0):
+    #             tempLink = folderFile(y.get_attribute("innerHTML"),y.get_attribute("Href"))
+    #             links.append(tempLink)
+    #     temp= classFolder(heading,links)
+    #     print("test")
 
 
 # for x in xrange(0,len(folders)-1):
