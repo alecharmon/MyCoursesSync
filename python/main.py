@@ -19,8 +19,9 @@ pp = pprint.PrettyPrinter(indent=4)
 for x in classFolder:
     print(x.title+"__________")
     x.makeFolder()
+
     for y in x.links:
-        print(y.title+"   "+y.link)
+       y.getFile(driver,x)
 # for x in classes:
 #     x.makeFolder()
 

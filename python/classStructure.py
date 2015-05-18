@@ -43,14 +43,24 @@ class folderFile:
         self.link = link
     def getFile(self,driver, folder):
         ##check if file exits
-        if(os.path.isfile("testing/" +folder.className+"/"+ folder.title+"/"+self.ttle)):
+        if(os.path.isfile("testing/" +folder.className+"/"+ folder.title+"/"+self.title)):
             #iff it does skip
             pass
         else:
             driver.get(self.link)
-            toDownloadfile = driver.find_element_by_class_name("d2l-fileviewer-pdf")
-            link = toDownloadfile.get_attribute("data-location")
-            print ("https://mycourses2.mcgill.ca"+link)
+            try:
+                toDownloadfile = driver.find_element_by_class_name("d2l-fileviewer-pdf")
+                link = toDownloadfile.get_attribute("data-location")
+                print ("https://mycourses2.mcgill.ca"+link)
+            except:
+                driver.find_element_by_partial_link_text('Open in New Window').click()
+                driver.switch_to_window(driver.window_handles[1])
+                link = driver.current_url
+                driver.switch_to_window(driver.window_handles[1])
+                del driver.window_handles[1]
+                print(link)
+
+
 
         #else download it
         pass

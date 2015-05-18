@@ -13,7 +13,7 @@ def login(driver, user, passw):
     driver.find_element_by_id('password').send_keys(passw, Keys.RETURN)
     driver.find_element_by_link_text('Access myCourses').click()
     driver.switch_to_window(driver.window_handles[1])
-
+    del driver.window_handles[0]
 
 def getClasses(driver):
     classes = []
