@@ -1,4 +1,4 @@
-from classStructure import Class,folderFile,classFolder
+from classStructure import Class, folderFile, classFolder
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -26,22 +26,33 @@ def getClasses(driver):
         classes.append(x)
     return classes
 
-def getFolder(driver, Class ):
+
+def getFolder(driver, Class):
     driver.get(Class.link)
-    toRetFolders=[]
+    toRetFolders = []
     driver.find_element_by_link_text('Content').click()
+    driver.find_element_by_id('TreeItemTOC').click()
+    try:
+        loadMoreButtons = driver.find_element_by_partial_link_text('Load More').click()
+        for button in loadMoreButtons:
+            button.click()
+    except:
+        pass
     folders = driver.find_elements_by_class_name('d2l-datalist')
     headings = folders[0].find_elements_by_xpath(".//h2")
     del folders[0]
     for folder in folders:
         heading = headings[0].get_attribute("innerHTML")
         del headings[0]
+
         scraperLinks = folder.find_elements_by_xpath(".//a")
-        links =[]
+        links = []
         for y in scraperLinks:
-            if (y.get_attribute("text") != "" ) &  (y.get_attribute("innerHTML").find("<img") < 0):
-                tempLink = folderFile(y.get_attribute("innerHTML"),y.get_attribute("Href"))
+            if (y.get_attribute("text") != "" ) & (y.get_attribute("innerHTML").find("<img") < 0):
+                tempLink = folderFile(y.get_attribute("innerHTML"), y.get_attribute("Href"))
                 links.append(tempLink)
-        temp= classFolder(heading,links)
+        temp = classFolder(heading, links, Class.title)
         toRetFolders.append(temp)
     return toRetFolders
+
+

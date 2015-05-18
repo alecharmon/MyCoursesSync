@@ -18,6 +18,7 @@ classFolder = getFolder(driver, classes[0])
 pp = pprint.PrettyPrinter(indent=4)
 for x in classFolder:
     print(x.title+"__________")
+    x.makeFolder()
     for y in x.links:
         print(y.title+"   "+y.link)
 # for x in classes:
