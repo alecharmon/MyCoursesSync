@@ -1,4 +1,4 @@
-from classStructure import Class, folderFile, classFolder
+from classStructure import course, Document, courseFolder
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -14,45 +14,56 @@ def login(driver, user, passw):
     driver.find_element_by_link_text('Access myCourses').click()
     driver.switch_to_window(driver.window_handles[1])
     del driver.window_handles[0]
+    ##assert(LogedIn!)
 
-def getClasses(driver):
-    classes = []
-    links = driver.find_elements_by_partial_link_text("Fall 2013")
+
+def getCourses(driver,semester):
+    ###goes to the main page of my courses and return all classes that have the semester passed in their link as a course obkect
+    courses = []
+    links = driver.find_elements_by_partial_link_text(semester)
     for link in links:
         title = link.get_attribute("text")
-        # title = title.split('-')
-        # title = title[1]
-        x = Class("Fall 2013", title, link.get_attribute("href"), link)
-        classes.append(x)
-    return classes
+        x = Course(semester, title, link.get_attribute("href"), link)
+        courses.append(x)
+    return courses
 
 
-def getFolder(driver, Class):
-    driver.get(Class.link)
+def getDirectory(driver, course):
+
+    driver.get(course.link)
     toRetFolders = []
     driver.find_element_by_link_text('Content').click()
     driver.find_element_by_id('TreeItemTOC').click()
+    ## load button does not exit always and does not always apear when it should.... 
+    ## jankey code i know
     try:
         loadMoreButtons = driver.find_element_by_partial_link_text('Load More').click()
         for button in loadMoreButtons:
             button.click()
     except:
         pass
-    folders = driver.find_elements_by_class_name('d2l-datalist')
+
+    ## within a course directory there are subfolders 
+    folders = driver.find_elements_by_course_name('d2l-datalist')
     headings = folders[0].find_elements_by_xpath(".//h2")
+    ## the first folder is genereric and does not have a link
     del folders[0]
+
     for folder in folders:
         heading = headings[0].get_attribute("innerHTML")
         del headings[0]
 
+        ## scrapper links are the selenium drier objecrs and document links are the parsed python object
         scraperLinks = folder.find_elements_by_xpath(".//a")
-        links = []
-        for y in scraperLinks:
-            if (y.get_attribute("text") != "" ) & (y.get_attribute("innerHTML").find("<img") < 0):
-                tempLink = folderFile(y.get_attribute("innerHTML"), y.get_attribute("Href"))
-                links.append(tempLink)
-        temp = classFolder(heading, links, Class.title)
-        toRetFolders.append(temp)
+        documentLinks = []
+        for scraperlink in scraperLinks:
+            ##filtering out mycourses wierdness
+            if (scraperlink.get_attribute("text") != "" ) & (scraperlink.get_attribute("innerHTML").find("<img") < 0):
+                documentLinks.append(Document(scraperlink.get_attribute("innerHTML"), scraperlink.get_attribute("Href")))
+                pass
+            pass
+
+        toRetFolders.append(courseFolder(heading, documentLinks, course.title))
     return toRetFolders
 
 

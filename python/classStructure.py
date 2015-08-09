@@ -13,7 +13,7 @@ class link:
         self.link = link
 
 
-class Class:
+class course:
     def __init__(self, semster, title, link, element):
         self.semster = semster
         self.title = title
@@ -25,7 +25,7 @@ class Class:
             os.mkdir("testing/" + self.title)
 
 
-class classFolder:
+class courseFolder:
     def __init__(self, title, links, Classname):
         self.title = title
         self.links = links
@@ -37,11 +37,11 @@ class classFolder:
             os.mkdir("testing/" +self.className+"/"+ self.title)
 
 
-class folderFile:
+class Document:
     def __init__(self, title, link):
         self.title = title
         self.link = link
-    def getFile(self,driver, folder):
+    def saveFile(self,driver, folder):
         ##check if file exits
         if(os.path.isfile("testing/" +folder.className+"/"+ folder.title+"/"+self.title)):
             #iff it does skip
@@ -63,6 +63,9 @@ class folderFile:
 
 
         #else download it
+
+        # selnium does not have any real way of downloading files in the background, phantomjs 
+        # does not have any form of downloading in the realase i was working with
         pass
 
 
