@@ -13,19 +13,19 @@ username = "alec.blumenfeld@mail.mcgill.ca"
 password = "Sora1900"
 login(driver, username, password)
 ##get classes
-classes = getCourses(driver,"Fall 2013")
+classes = getCourses(driver,"Winter 2015")
 
 ##make folders
-courseFolders = getFolder(driver, classes[0])
+courseFolders = getDirectory(driver, classes[1])
 
-for folder in courseFolders:
-    print(folder.title+"__________")
-    folder.makeFolder()
-
-    for y in folder.links:
-       y.getFile(driver,folder)
-
-
-for x in classes:
-    x.makeFolder()
-
+# for folder in courseFolders:
+#     print(folder.title+"__________")
+#     folder.makeFolder()
+#
+#     for y in folder.links:
+#        y.getFile(driver,folder)
+#
+#
+# for x in classes:
+#     x.makeFolder()
+#
