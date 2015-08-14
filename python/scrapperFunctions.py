@@ -45,7 +45,7 @@ def getAllDocuments(driver, course):
     except:
         pass
 
-    return scrapeDocuments(driver.page_source)
+    return scrapeDocuments(driver.page_source,course.title)
 
 
 def match_class(target):
@@ -59,7 +59,7 @@ def match_class(target):
         return all(c in classes for c in target)
     return do_match
 
-def scrapeDocuments(html):
+def scrapeDocuments(html,courseTitle):
     soup = BeautifulSoup(html)
     list =  soup.findAll(match_class("d2l-datalist"))
     h2s =  list[0].findAll("h2")
@@ -77,8 +77,8 @@ def scrapeDocuments(html):
                 documentLink = "https://mycourses2.mcgill.ca/d2l/le/content/{0}/topics/files/download/{1}/DirectFileTopicDownload".format(idNumbers[0],idNumbers[1])
 
 
-                documentType = docTypes[link.get('title').split(' - ')]
-                documents.append(Document(link.string, documentLink,documentType, title.string))
+                documentType = docTypes[link.get('title').split(' - ')[-1]]
+                documents.append(Document(link.string, documentLink,documentType, title.string,courseTitle))
 
 
     return  documents
@@ -86,7 +86,8 @@ def scrapeDocuments(html):
 ### a Helper global dictonary for parsing the doc title to the appropriate extenssion
 docTypes = {
     'Adobe Acrobat Document': ".pdf",
-    'Adobe Acrobat Document': ".doc",
-    'Adobe Acrobat Document': "Link",
+    'PowerPoint Presentation': ".ppt",
+    'Word Document': ".doc",
+    'Link Topic': "Link",
 
 }

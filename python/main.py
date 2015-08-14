@@ -10,8 +10,11 @@ from scrapperFunctions import getCourses,getAllDocuments
 driver = webdriver.Firefox()
 driver.implicitly_wait(5)
 ##login
-username = "alec.blumenfeld@mail.mcgill.ca"
-password = "Sora1900"
+print "PLEASE ENTER USERNAME"
+username = raw_input()
+print "PLEASE ENTER PASSWORD"
+
+password =  raw_input()
 login(driver, username, password)
 ##get classes
 classes = getCourses(driver,"Winter 2015")
@@ -19,7 +22,7 @@ classes = getCourses(driver,"Winter 2015")
 
 #get all documents from folders
 documents = []
-for course in classes[3:4]:
+for course in classes:
 
     courseDocuments = getAllDocuments(driver, course)
     for x in courseDocuments:
@@ -43,13 +46,12 @@ br.set_cookiejar(cj)
 
 # Now open the URL:
 for x in documents:
-    try:
-        br.retrieve(x.link)[0]
-        print "Downloaded "+ x.title
-    except:
-        print "unable to download file "+ x.title
-        pass
-    pass
+    if x.checkIfFileExists():
+        pass##file exits, we are good
+    else:
+        x.save(br)
+
+
 
 
 # for folder in courseFolders:

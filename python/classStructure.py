@@ -1,10 +1,4 @@
-import os, sys
-from selenium import webdriver
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as E
+import os, os.path
 
 class link:
     def __init__(self, semster, title, link):
@@ -38,10 +32,13 @@ class courseFolder:
 
 class Document:
     course =""
-    def __init__(self, title, link, folder):
+    def __init__(self, title, link,type, folder,courseTitle):
         self.title = title
         self.link = link
+        self.type = type
+
         self.folder = folder
+        self.courseTitle = courseTitle
 
     def saveFile(self,driver, folder):
         ##check if file exits
@@ -62,17 +59,36 @@ class Document:
                 del driver.window_handles[1]
                 print(link)
 
-
-
-
-
-
-        #else download it
-
-        # selnium does not have any real way of downloading files in the background, phantomjs 
-        # does not have any form of downloading in the realase i was working with
         pass
 
+    def checkIfFileExists(self):
+        path = self.courseTitle+"/"+self.folder
+
+
+        if not os.path.exists(path):
+            os.makedirs(path)
+            return False
+
+
+        path += self.title
+
+        if os.path.exists(path): return True
+        else: return False
+
+
+
+        pass
+    def save(self,agent):
+        try:
+            if self.type == "Link":
+                ##TODO: ADD LINK GENERATION
+                return " "
+            agent.retrieve(self.link,self.courseTitle+"/"+self.folder+"/"+self.title+self.type)[0]
+            print "Downloaded "+ self.title
+        except:
+            print "unable to download file "+ self.title
+            pass
+    pass
 
 		
 
