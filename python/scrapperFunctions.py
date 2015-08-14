@@ -31,7 +31,7 @@ def getCourses(driver,semester):
     return courses
 
 
-def getDirectory(driver, course):
+def getAllDocuments(driver, course):
     driver.get(course.link)
     toRetFolders = []
     driver.find_element_by_link_text('Content').click()
@@ -45,32 +45,9 @@ def getDirectory(driver, course):
     except:
         pass
 
-    folders = getAllFolders(driver.page_source)
+    return scrapeDocuments(driver.page_source)
 
 
-    ## within a course directory there are subfolders
-    # folders = driver.find_elements_by_class_name('d2l-datalist')
-    # headings = folders[0].find_elements_by_xpath(".//h2")
-    # ## the first folder is genereric and does not have a link
-    # del folders[0]
-    #
-    # for folder in folders:
-    #     heading = headings[0].get_attribute("innerHTML")
-    #     del headings[0]
-    #     getAllATags(heading)
-    #     ## scrapper links are the selenium drier objecrs and document links are the parsed python object
-    #
-    #     scraperLinks = folder.find_elements_by_xpath(".//a")
-    #     documentLinks = []
-    #     for scraperlink in scraperLinks:
-    #         ##filtering out mycourses wierdness
-    #         # if (scraperlink.get_attribute("text") != "" ) & (scraperlink.get_attribute("innerHTML").find("<img") < 0):
-    #         #     documentLinks.append(Document(scraperlink.get_attribute("innerHTML"), scraperlink.get_attribute("Href")))
-    #         #     pass
-    #         pass
-    #
-    #     toRetFolders.append(courseFolder(heading, documentLinks, course.title))
-    # return toRetFolders
 def match_class(target):
     target = target.split()
     def do_match(tag):
@@ -82,28 +59,34 @@ def match_class(target):
         return all(c in classes for c in target)
     return do_match
 
-def getAllFolders(html):
+def scrapeDocuments(html):
     soup = BeautifulSoup(html)
     list =  soup.findAll(match_class("d2l-datalist"))
     h2s =  list[0].findAll("h2")
     folders =  list[0].findAll(match_class("d2l-collapsepane-content"))
     print len(folders),  "  " ,len(h2s)
     tstzip = zip( folders,  h2s)
-    print len(tstzip)
+    documents = []
     for folder, title in zip( folders,  h2s):
-        print title.string
         links = folder.findAll('a')
-
         for link in links:
 
+
             if  link.get('href') != "javascript:void(0);" and  link.get('href') != None :
-                print link.get('href')
+                idNumbers  = [int(s) for s in link.get('href').split("/") if s.isdigit()]
+                documentLink = "https://mycourses2.mcgill.ca/d2l/le/content/{0}/topics/files/download/{1}/DirectFileTopicDownload".format(idNumbers[0],idNumbers[1])
 
 
-    return  folders
-    # for link in soup.findAll(match_class("d2l-datalist")):
-    #     print link.get('href')
-    #
+                documentType = docTypes[link.get('title').split(' - ')]
+                documents.append(Document(link.string, documentLink,documentType, title.string))
 
-    pass
 
+    return  documents
+
+### a Helper global dictonary for parsing the doc title to the appropriate extenssion
+docTypes = {
+    'Adobe Acrobat Document': ".pdf",
+    'Adobe Acrobat Document': ".doc",
+    'Adobe Acrobat Document': "Link",
+
+}

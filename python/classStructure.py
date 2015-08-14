@@ -36,11 +36,13 @@ class courseFolder:
         if not os.path.exists("testing/" + self.className+"/"+ self.title):
             os.mkdir("testing/" +self.className+"/"+ self.title)
 
-
 class Document:
-    def __init__(self, title, link):
+    course =""
+    def __init__(self, title, link, folder):
         self.title = title
         self.link = link
+        self.folder = folder
+
     def saveFile(self,driver, folder):
         ##check if file exits
         if(os.path.isfile("testing/" +folder.className+"/"+ folder.title+"/"+self.title)):
@@ -59,6 +61,9 @@ class Document:
                 driver.switch_to_window(driver.window_handles[1])
                 del driver.window_handles[1]
                 print(link)
+
+
+
 
 
 
