@@ -7,12 +7,6 @@ from classStructure import Document, courseFolder
 from scrapperFunctions import getCourses,getAllDocuments
 
 
-import pip
-with open("requirements.txt", "w") as f:
-    for dist in pip.get_installed_distributions():
-        req = dist.as_requirement()
-        f.write(str(req) + "\n")
-
 driver = webdriver.Firefox()
 driver.implicitly_wait(5)
 ##login
