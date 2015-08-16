@@ -1,11 +1,10 @@
-# ${1:McGill MyCourses Sync}
+# McGill MyCourses Sync
 This is a functional beta for synching a local folder on your computer to your McGill mycourses classes it grew out of my hatred of worrying about wether or not I had everything that I needed downloaded from MyCourses. It was built using a combination of mechanize and selenium to scrape the links from your course pages and then download them locally. Ideally it would be something that you have in cron so that you would **NEVER NEED TO USE MYCOURSES EVER AGAIN**. 
 ## Installation
 At the moment all you need is python, pip and firefox, all of the python dependencies are in requirements.txt
 
-'''bash
-pip install -r requirements.txt
-'''
+
+'pip install -r requirements.txt'
 
 Also edit the config-example.yaml file so that it uses your credentials and the correct course. All courses should appear as they do in mycourses ie "Fall 2015" or "Winter 2013"
 
