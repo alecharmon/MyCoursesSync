@@ -1,4 +1,4 @@
-from classStructure import course, Document, courseFolder
+from classStructure import Course, Document
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
@@ -27,7 +27,7 @@ def getCourses(driver,semester):
     links = driver.find_elements_by_partial_link_text(semester)
     for link in links:
         title = link.get_attribute("text")
-        x = course(semester, title, link.get_attribute("href"), link)
+        x = Course(semester, title, link.get_attribute("href"), link)
         courses.append(x)
     return courses
 

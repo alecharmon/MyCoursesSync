@@ -2,3 +2,5 @@ mycourses:
   - user: username@mail.mcgill.ca
   - pass: foobar
   - term: Winter 2015
+local:
+  - path:""

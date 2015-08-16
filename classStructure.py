@@ -1,13 +1,7 @@
 import os, os.path
 
-class link:
-    def __init__(self, semster, title, link):
-        self.semster = semster
-        self.title = title
-        self.link = link
 
-
-class course:
+class Course:
     def __init__(self, semster, title, link, element):
         self.semster = semster
         self.title = title
@@ -19,16 +13,6 @@ class course:
             os.mkdir("testing/" + self.title)
 
 
-class courseFolder:
-    def __init__(self, title, links, Classname):
-        self.title = title
-        self.links = links
-        self.className = Classname
-
-
-    def makeFolder(self):
-        if not os.path.exists("testing/" + self.className+"/"+ self.title):
-            os.mkdir("testing/" +self.className+"/"+ self.title)
 
 class Document:
     course =""
@@ -78,12 +62,12 @@ class Document:
 
 
         pass
-    def save(self,agent):
+    def save(self,agent,path):
         try:
             if self.type == "Link":
                 ##TODO: ADD LINK GENERATION
-                return " "
-            agent.retrieve(self.link,self.courseTitle+"/"+self.folder+"/"+self.title+self.type)[0]
+                return ""
+            agent.retrieve(self.link,path+self.courseTitle+"/"+self.folder+"/"+self.title+self.type)[0]
             print "Downloaded "+ self.title
         except:
             print "unable to download file "+ self.title
