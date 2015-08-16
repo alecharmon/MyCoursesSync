@@ -4,7 +4,7 @@ import cookielib
 import mechanize
 from scraperFunctions import login
 from Models import Document
-from scrapperFunctions import getCourses,getAllDocuments
+from scraperFunctions import getCourses,getAllDocuments
 import yaml
 
 
