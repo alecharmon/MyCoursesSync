@@ -2,8 +2,8 @@ import pprint
 from selenium import webdriver
 import cookielib
 import mechanize
-from scrapperFunctions import login
-from classStructure import Document
+from scraperFunctions import login
+from Models import Document
 from scrapperFunctions import getCourses,getAllDocuments
 import yaml
 
@@ -46,6 +46,8 @@ for s_cookie in cookie:
 br = mechanize.Browser()
 br.set_cookiejar(cj)
 
+#quit driver
+driver.close()
 
 # Now open the URL:
 for x in documents:
