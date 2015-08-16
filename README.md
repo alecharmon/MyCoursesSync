@@ -4,7 +4,7 @@ This is a functional beta for synching a local folder on your computer to your M
 At the moment all you need is python, pip and firefox, all of the python dependencies are in requirements.txt
 
 
-'pip install -r requirements.txt'
+`pip install -r requirements.txt`
 
 Also edit the config-example.yaml file so that it uses your credentials and the correct course. All courses should appear as they do in mycourses ie "Fall 2015" or "Winter 2013"
 
